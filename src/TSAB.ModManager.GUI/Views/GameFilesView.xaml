@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="TSAB.ModManager.GUI.Views.GameFilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:TSAB.ModManager.GUI.ViewModels"
+             xmlns:conv="clr-namespace:TSAB.ModManager.GUI.Converters">
+
+    <UserControl.Resources>
+        <conv:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <UserControl.DataContext>
+        <vm:GameFilesViewModel/>
+    </UserControl.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 🔹 List of modified game files -->
+        <ListView ItemsSource="{Binding ModifiedFiles}" SelectedItem="{Binding SelectedFile}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="File Path" DisplayMemberBinding="{Binding FilePath}" Width="350"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- 🔹 Buttons for checking and restoring files -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Check Files" Command="{Binding CheckFilesCommand}" Margin="5" Click="Button_Click"/>
+            <Button Content="Generate Hash List" Command="{Binding GenerateHashListCommand}" Margin="5"/>
+            <Button Content="Restore Selected" Command="{Binding RestoreFileCommand}" Margin="5"/>
+            <Button Content="Restore All Missing Files" Command="{Binding RestoreAllCommand}" Margin="5"/>
+        </StackPanel>
+        <ProgressBar Minimum="0" Maximum="100" Value="{Binding Progress}" Height="20"
+             Visibility="{Binding IsCheckingFiles, Converter={StaticResource BooleanToVisibilityConverter}}" />
+    </Grid>
+</UserControl>

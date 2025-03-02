@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="TSAB.ModManager.GUI.Views.ModsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:TSAB.ModManager.GUI.ViewModels"
+             Height="Auto" Width="Auto"
+             DataContext="{Binding ModsViewModel}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- 🔹 List of Mods -->
+        <ListView ItemsSource="{Binding Mods}" SelectedItem="{Binding SelectedMod, Mode=TwoWay}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Mod Name" DisplayMemberBinding="{Binding Name}" Width="250"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding IsActive}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- 🔹 Buttons for Activating & Deactivating Mods -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Content="Activate" Command="{Binding ActivateModCommand}" Margin="5"/>
+            <Button Content="Deactivate" Command="{Binding DeactivateModCommand}" Margin="5"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
